@@ -1,0 +1,41 @@
+\documentclass{article}
+\begin{comment}
+	\tag:
+	虚函数
+\end{comment}
+\begin{document}
+	\paragraph*{Question 27} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+struct A {
+	virtual std::ostream &put(std::ostream &o) const {
+		return o << 'A';
+	}
+};
+
+struct B : A {
+	virtual std::ostream &put(std::ostream &o) const {
+		return o << 'B';
+	}
+};
+
+std::ostream &operator<<(std::ostream &o, const A &a) {
+	return a.put(o);
+}
+
+int main() {
+	B b;
+	std::cout << b;
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：B}} $
+	
+	由于函数中 a 的动态类型是 B, 将执行 B::put。
+	
+	这是一种使得 operator $<<$ 也能展现出"多态"的方法。 
+\end{document}

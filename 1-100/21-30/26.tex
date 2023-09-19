@@ -1,0 +1,31 @@
+\documentclass{article}
+
+\begin{comment}
+	tag:
+	运算和运算符
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 26}\noindent $\boxed{\text{Difficulty: Easy}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+
+int main() {
+	int i = 42;
+	int j = 1;
+	std::cout << i / --j;
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序存在未定义行为}} $
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/expr.mul#4}{[expr.mul\#4]} 指出,除以0是未定义行为。
+	\begin{lightgrayleftbar}
+		If the second operand of / or \% is zero the behavior is undefined.
+	\end{lightgrayleftbar}
+	
+	
+\end{document}

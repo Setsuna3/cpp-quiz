@@ -1,0 +1,36 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	类的继承
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 17} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+class A {
+	public:
+	A() { std::cout << 'a'; }
+	~A() { std::cout << 'A'; }
+};
+
+class B : public A {
+	public:
+	B() { std::cout << 'b'; }
+	~B() { std::cout << 'B'; }
+};
+
+int main() { B b; }
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: abBA}} $
+	
+	【待补充】
+\end{document}

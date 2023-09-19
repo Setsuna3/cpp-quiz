@@ -1,0 +1,38 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 18} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+class A {
+	public:
+	virtual void f() { std::cout << "A"; }
+};
+
+class B : public A {
+	private:
+	void f() { std::cout << "B"; }
+};
+
+void g(A &a) { a.f(); }
+
+int main() {
+	B b;
+	g(b);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：B}} $
+	
+	即使 B::f() 是私有函数, 也可以被访问。
+	\href{https://timsong-cpp.github.io/cppwp/n4659/class.access.virt#1}{[class.access.virt\#1]}指出, 虚函数的访问控制仅由定义决定, 不受后续重载的影响。
+	
+	\begin{lightgrayleftbar}
+		The access rules (Clause [class.access]) for a virtual function are determined by its declaration and are not affected by the rules for a function that later overrides it.
+	\end{lightgrayleftbar}
+	
+	
+\end{document}

@@ -1,0 +1,384 @@
+\documentclass{article} 
+
+% 导入中文宏
+\usepackage{ctex}
+\usepackage{framed} 
+\usepackage{fancyhdr} % 设置页眉、页脚
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{listings} % 代码
+\usepackage{comment}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{framed}
+\usepackage{subfiles}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\usepackage{color}
+
+\chead{C++ Quiz Tutorial}%页眉中间
+
+\usepackage{color}
+
+\lstset{ %基本设置
+	basicstyle=\small, %环境中的代码字体变小 [在结尾要加逗号！]
+	basicstyle=\tt, %使用teletype字体（一种等宽字体）
+	basicstyle=\it, %使用罗马斜体
+	%其他可选的还有：\bf, \sc, \st, \sl, \em, \nocorr等
+}
+\lstset{ %关键字设置
+	keywordstyle=\color{black}, %设置关键字颜色为黑色
+	keywordstyle=\color{blue}, %设置关键字颜色为蓝色
+	keywordstyle=\bfseries, %不改变当前字体的族与形状，但转变成bold加粗序列
+	keywordstyle=\mdseries, %不改变当前字体的族与形状，但转变成中等粗细medium序列
+	keywordstyle=\underbar, %添加下划线
+	keywordstyle=\color{black}\bfseries\underbar, %添加下划线的加粗黑色关键字
+}
+\lstset{
+	breaklines, %自动换行
+	identifierstyle=\color{red},
+	%identifierstyle= , %不设置 
+}
+
+\lstset{ %注释设置
+	commentstyle=\it\color[RGB]{100,100,100}, 
+}
+
+\lstset{
+	basicstyle=\tt,
+	keywordstyle=\color{purple}\bfseries,
+	identifierstyle=\color{brown!80!black},
+	commentstyle=\color{gray}
+	%showstringspaces=false,
+}
+
+\lstset{
+	numbers=left, %在左侧显示行数
+	numberstyle=\tiny\color{black}, %数字大小，颜色调整
+	stepnumber=1 , %每两行标号一次
+	numbersep=5pt, %数字右端（若为左侧显示数字）水平距离代码5pt
+} 
+
+\lstset{
+	tabsize=4,
+	xleftmargin=2em, %整体距左侧边线的距离为2em
+	xrightmargin=2em,
+}
+
+\lstset{
+	frame=shadowbox, %设置阴影
+	framexleftmargin=4mm, %框架左边界延长（frame是不会考虑到左边的行数栏的）
+	rulecolor=\color{gray}, %框架颜色设置
+	rulesepcolor=\color{gray}, %框架阴影颜色设置
+}
+
+\definecolor{lightgray}{rgb}{0.75,0.75,0.75} 
+\newenvironment{lightgrayleftbar}{
+	 \def\FrameCommand{\textcolor{lightgray}{\vrule width 3pt} \hspace{3pt}} \MakeFramed {\advance\hsize-\width \FrameRestore}}
+{\endMakeFramed}
+ 
+\cfoot{第 \thepage 页, 共 \pageref{unknown} 页} 
+\renewcommand{\footrulewidth}{0.1mm} 
+
+\begin{document}
+	
+	\tableofcontents
+	
+	\subfile{introduction}
+	% section 1 
+	\section{C++ 基本问题}
+
+	\subsection{C++ 基本类型}
+	\subfile{tutorials/101-200/151-160/151} % ok [E] char 的符号性、位数都是未指定的。
+	
+	\subfile{tutorials/201-300/271-280/275} % ok
+	
+	\subsection{C++ 基本语法}
+	
+	\subfile{tutorials/1-100/1-10/6} % ok [E] for 循环
+	
+	\subfile{tutorials/101-200/111-120/111} % ok [E] continue 语句
+	
+	\subfile{tutorials/301-400/331-340/333} % ok [M] 快速趋向于!
+	
+	\subfile{tutorials/101-200/161-170/161} % ok [H] switch 
+	
+	\subsection{字面量的类型}
+	\subfile{tutorials/101-200/111-120/115} % ok [E] 基础的函数重载匹配, 问浮点字面量是什么类型
+	
+	\subfile{tutorials/1-100/1-10/4} % ok [E] 基础的函数重载匹配, 问浮点字面量是什么类型
+	
+	\subfile{tutorials/301-400/331-340/335} % ok [M] 字面量NULL的类型问题
+	
+	\subfile{tutorials/201-300/271-280/277} % ok
+	
+	\subsection{变量的作用域和生命周期}
+	
+	\subfile{tutorials/101-200/191-200/197} % ok [E] 当作用域内的变量和作用域外的变量同名。
+	\subfile{tutorials/101-200/101-110/105} % ok [M] 变量的生命周期
+	
+	\subfile{tutorials/201-300/291-300/295} % ok [E] 临时变量析构时间, copy elision
+	
+	\subsection{变量的声明和定义}
+	
+	\subfile{tutorials/201-300/291-300/291} % ok [M] 变量名
+	
+	\subfile{tutorials/101-200/111-120/119} % ok [M] 变量声明时间点
+	
+	\subfile{tutorials/101-200/191-200/198} % ok [M] extern 变量声明
+	
+	\subfile{tutorials/101-200/101-110/106} % ok [M] extern 变量声明
+	
+	\subsection{变量的初始化}
+	\subfile{tutorials/1-100/11-20/11} % ok [E] 全局变量初始化
+	
+	\subfile{tutorials/1-100/11-20/12} % ok [E] 静态变量初始化
+	
+	\subfile{tutorials/201-300/291-300/296} % ok [M] 聚合体初始化 
+	\subfile{tutorials/101-200/101-110/107} % ok [M] 初始化列表评估顺序
+	\subfile{tutorials/201-300/221-230/221} % ok [E] 大括号初始化/direct initialization
+	
+	\subsection{cv 限定符}
+	\subfile{tutorials/101-200/111-120/114} % ok 
+	\subfile{tutorials/101-200/141-150/148} % ok valitaile
+	
+	\subsection{函数类型}
+	\subfile{tutorials/201-300/231-240/233} %todo
+	
+	\subsection{习题}
+	\subfile{exercises/basic/1}
+	\subfile{exercises/basic/2}
+	\subfile{exercises/basic/3}
+	\subfile{exercises/basic/4}
+	\subfile{exercises/basic/5}
+	\subfile{exercises/basic/6}
+	
+	\section{C++ 表达式和类型转换}
+	
+	\subsection{运算和运算符}
+	
+	\subfile{tutorials/1-100/21-30/26} % ok [E] 除以零
+	
+	\subfile{tutorials/201-300/211-220/220} % ok [E] ?: 三元运算
+	\subfile{tutorials/101-200/111-120/120} % ok [E] 运算符优先级问题
+	
+	\subfile{tutorials/201-300/261-270/265} % ok [E] 基础的函数重载匹配, 问&x是左值还是右值
+	
+	\subfile{tutorials/201-300/281-290/286} % ok [M] integral promotion, 转换。
+	
+	\subfile{tutorials/201-300/251-260/259} % ok [M] char, integral promotion
+	
+	\subfile{tutorials/1-100/21-30/25} %ok
+	
+	\subfile{tutorials/101-200/141-150/144} % ok [H] 无符号数取负数
+	\subfile{tutorials/1-100/21-30/24} % ok [E] 无符号数运算
+	
+	\subfile{tutorials/201-300/281-290/288} % ok [E] 
+	\subfile{tutorials/201-300/211-220/217} % ok [H] ?: 三元运算
+	\subfile{tutorials/201-300/231-240/238} % ok [M] 综合
+	
+	\subfile{tutorials/101-200/171-180/178} % 词法分析
+	\subsection{类型转换}
+	
+	\subfile{tutorials/101-200/151-160/153} % ok [M] cv-qualifed, const char* 和 char*的转换。
+	
+	\subfile{tutorials/201-300/241-250/249} %todo
+
+	\subfile{tutorials/101-200/181-190/190} % ok
+	\subfile{tutorials/201-300/201-210/205} % narrowing_cast
+	
+	\subfile{tutorials/201-300/231-240/236} % [M] 类型转换模板
+
+	\subsection{cast 类型转换}
+	 
+	\subfile{tutorials/101-200/171-180/179} %todo
+	\subfile{tutorials/101-200/181-190/188} % ok [M] 字符串字面量不能修改
+	\subsection{习题}
+	\subfile{exercises/expr/1}
+	\subfile{exercises/expr/2}
+	
+	\section{C++ 函数}
+		\subsection{函数声明与函数调用}
+		\subfile{tutorials/1-100/21-30/30} % ok [E] 函数与变量的二义性
+		\subfile{tutorials/1-100/31-40/31} % ok [H] 函数与变量的二义性
+		
+		\subfile{tutorials/1-100/1-10/9} % ok [E] 引用作为函数参数
+		\subfile{tutorials/101-200/181-190/186} % ok [M] 数组作为函数参数
+		\subfile{tutorials/101-200/131-140/132} % ok [E] 函数默认值
+		\subfile{tutorials/201-300/281-290/289} % ok [M] 函数默认值
+		\subfile{tutorials/101-200/131-140/140} % ok [M] 数组作为函数参数
+		
+		\subfile{tutorials/301-400/301-310/305} % ok [M] 函数参数评估顺序
+		\subfile{tutorials/101-200/191-200/192} % ok [M] 函数参数评估顺序
+		\subfile{tutorials/101-200/151-260/159} % ok [M] 函数参数评估和函数体顺序
+		
+		\subfile{tutorials/201-300/221-230/227} %todo
+		\subsection{名称查找}
+		\subfile{tutorials/101-200/121-130/126} % ok [E] 静态成员定义时的名称查找
+		\subfile{tutorials/101-200/181-190/184} % ok [M] 类内进行名称查找的情况
+		\subfile{tutorials/101-200/191-200/196} % todo [M] namespace 和名称查找
+		\subsection{函数重载}
+		
+		
+		\subfile{tutorials/101-200/111-120/118} % ok [E] 重载
+		\subfile{tutorials/1-100/1-10/3} % ok [E] 重载
+
+		
+		\subfile{tutorials/1-100/1-10/2} % ok [M] 重载
+		
+		\subsection{习题}
+		\subfile{exercises/fun/1} 
+		\subfile{exercises/fun/2}
+	\section{C++ 重要关键字}
+	\subsection{sizeof}
+	\subsection{auto}
+	\subfile{tutorials/201-300/271-280/276} % ok [H] 递归推导
+	\subfile{tutorials/101-200/161-170/163} % todo [E] 引用
+	\subsection{typeid}
+	\subsection{typedef}
+	\subsection{decltype}
+	\subfile{tutorials/1-100/31-40/37} % ok [E] decltype 规则
+	\subfile{tutorials/1-100/31-40/38} % ok [M] decltype 规则
+	\subfile{tutorials/301-400/331-340/337} % todo
+	
+	\section{C++ 类和对象}
+	
+	\subsection{构造函数和初始化}
+	
+	\subfile{tutorials/1-100/21-30/28} % todo
+	\subfile{tutorials/1-100/31-40/32} % todo
+	\subfile{tutorials/201-300/261-270/264} % todo
+	\subfile{tutorials/101-200/181-190/187} % [E] 复制构造函数
+	\subfile{tutorials/201-300/221-230/226} % [M] 构造函数的选择
+	\subfile{tutorials/201-300/281-290/281} % todo
+	
+	\subsection{构造函数、析构函数的调用顺序}
+	
+	\subfile{tutorials/1-100/1-10/5} % ok [E] 成员初始化顺序
+	
+	\subfile{tutorials/201-300/281-290/283} % ok [M] 构造和delete析构的顺序
+	
+	\subfile{tutorials/1-100/11-20/13} % ok [E] 全局变量的构造和析构
+	
+	\subfile{tutorials/1-100/11-20/16} % ok [E] 成员构造和构造函数的顺序
+	
+	\subfile{tutorials/101-200/141-150/145} % todo
+	
+	\subfile{tutorials/1-100/11-20/14} % todo
+	
+	\subfile{tutorials/1-100/11-20/17} % todo
+	
+	\subsection{类的继承和多态}
+	
+	\subfile{tutorials/301-400/311-320/312} % [E] private 继承
+	\subfile{tutorials/1-100/21-30/29} % ok [M] 在构造和析构的时候调用虚函数
+	 
+	\subfile{tutorials/1-100/1-10/7} % ok [E] 虚函数
+	\subfile{tutorials/1-100/1-10/8} % ok [E] 虚函数
+	\subfile{tutorials/1-100/11-20/18} % ok [E] 虚函数和访问控制
+	\subfile{tutorials/1-100/31-40/33} % ok [E] 虚函数
+	\subfile{tutorials/1-100/21-30/27} % ok [E] 虚函数
+	\subfile{tutorials/1-100/41-50/44} %todo
+	\subfile{tutorials/101-200/151-160/160} % ok [M] 虚函数和默认值
+
+	\subsection{友元函数}
+	
+	\subfile{tutorials/1-100/51-60/52} % 友元函数的定义
+	
+	\subsection{习题}
+	\subfile{exercises/class/1}
+	\section{C++ 模板}
+	
+	\subsection{模板参数推导}
+	
+	\subfile{tutorials/101-200/181-190/185} % ok [M] 模板 T 推导
+	\subfile{tutorials/101-200/121-130/125} % ok [M] 模板特化
+	\subfile{tutorials/301-400/341-350/347} % ok [M] 带 cv 和 引用的类型推导
+	
+	\subsection{模板的定义和初始化}
+	\subfile{tutorials/201-300/241-250/243} % todo
+	\subfile{tutorials/301-400/331-340/338} % todo
+	\subfile{tutorials/1-100/1-10/1} % todo [M] 模板特化时的函数推导
+	\subfile{tutorials/101-200/111-120/113} % ok []
+	\subfile{tutorials/101-200/101-110/109} % todo
+	\subfile{tutorials/201-300/241-250/242} % todo
+	\subfile{tutorials/201-300/241-250/250} % todo
+	
+	\subsection{模板与函数重载}
+	\subfile{tutorials/201-300/251-260/251} % todo
+	
+	\subsection{模板与名称查找}
+	\subfile{tutorials/101-200/161-170/162} %[M] 模板继承时的名称查找
+	
+	\section{C++ 容器}
+	
+	\subsection{string}
+	\subfile{tutorials/201-300/281-290/287} % ok std::string 构造函数
+	\subfile{tutorials/201-300/281-290/284} % ok [M] std::string 是否以\0结尾?
+	
+	\subsection{initializer\_list}
+	\subfile{tutorials/201-300/231-240/235} % ok [M] std::initializer_list 作为参数
+	
+	\subsection{vector}
+	
+	\subfile{tutorials/1-100/31-40/35} % ok [E] std::vector 构造函数
+	
+	\subsection{tuple}
+	
+	\subfile{tutorials/201-300/271-280/278} % ok [E] std::tuple<T>
+	\subsection{map}
+	\subfile{tutorials/201-300/201-210/208} % ok [E] std::map operator[]
+	\subfile{tutorials/101-200/131-140/135} % ok [E] std::map 构造
+	
+
+
+	\section{C++ 异常处理}
+	\subfile{tutorials/201-300/231-240/239} % ok [E] 异常匹配
+	\subfile{tutorials/1-100/11-20/15} % ok [H] 综合题 
+	\subfile{tutorials/301-400/321-330/323} % todo 综合题
+	\section{C++ 新特性}
+	\subsection{lambda 表达式}
+	\subfile{tutorials/201-300/221-230/229} % todo
+	\subsection{折叠表达式}
+	\subfile{tutorials/201-300/211-220/219} % todo
+	\subfile{tutorials/301-400/311-320/313} % todo
+	\subsection{std::variant}
+	
+	\subfile{tutorials/201-300/271-280/279} % ok std::variant 和 std::visit
+	\subfile{tutorials/201-300/221-230/222} % ok std::variant 构造函数
+	
+	\subsection{promise/future}
+	
+	\subfile{tutorials/301-400/331-340/339} % ok
+	\subfile{tutorials/301-400/331-340/340} % ok
+
+	
+	\section{杂项}
+	\subfile{tutorials/101-200/191-200/193} % ok
+	\subfile{tutorials/101-200/191-200/195} % ok
+	\subfile{tutorials/201-300/291-300/293} % ok
+	\subfile{tutorials/201-300/221-230/224} % ok
+	\subfile{tutorials/301-400/331-340/332} % ok
+	\subfile{tutorials/101-200/141-150/147} % ok trigraph
+	\subfile{tutorials/1-100/41-50/41} %ok
+	
+	\section{习题参考答案}
+	\subsection{C++ 基本问题}
+	\subfile{answers/basic/1}
+	\subfile{answers/basic/2}
+	\subfile{answers/basic/3}
+	\subsection{C++ 函数}
+	\subfile{answers/fun/1}
+	\subfile{answers/fun/2}
+	\subsection{C++ 类和对象}
+	\subfile{answers/class/1}
+	
+	\subfile{Epilogue}
+\label{unknown}
+\end{document}

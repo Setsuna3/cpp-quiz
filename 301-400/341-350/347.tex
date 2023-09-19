@@ -1,0 +1,67 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	std::string
+\end{comment}
+\begin{document}
+	
+	\paragraph*{Question 347} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <type_traits>
+
+template <typename T>
+void foo(T& x)
+{
+	std::cout << std::is_same_v<const int, T>;
+}
+
+template <typename T>
+void bar(const T& x)
+{
+	std::cout << std::is_same_v<const int, T>;
+}
+
+int main()
+{
+	const int i{};
+	int j{};
+	
+	foo(i);
+	foo(j);
+	bar(i);
+	bar(j);
+	
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序正常运行, 输出为: 1000}} $
+	
+	在进行函数模板的参数推导时, 可以参照 \href{https://timsong-cpp.github.io/cppwp/n4659/temp.deduct.call#3}{temp.deduct.call\#3} 中的规则。
+	
+	\begin{lightgrayleftbar}
+		If P is a cv-qualified type, the top-level cv-qualifiers of P's type are ignored for type deduction. If P is a reference type, the type referred to by P is used for type deduction.
+	\end{lightgrayleftbar}
+	
+	即, 进行模板参数推导时, 不考虑函数形参的顶级 cv 限定符及引用。
+	
+	foo 函数的参数类型可表为 T, 而 i 的类型是 const int, 因此 foo(i) 中, T 被推导为 const int, 输出 1。
+	
+	j 的类型是 int, 因此 foo(j) 中 T = int, 输出 0。
+	
+	bar 函数的参数类型可表为 const T, 而 i 的类型是 const int, 因此 bar(i) 中, T 被推导为 int, 输出 0。
+	
+	j 的类型是 int, 无法与 const T 匹配。但此时根据 \href{https://timsong-cpp.github.io/cppwp/n4659/temp.deduct.call#4}{temp.deduct.call\#4} 中的规则, 模板匹配一般要求类型完全一致, 但有例外。
+	
+	\begin{lightgrayleftbar}
+		If the original P is a reference type, the deduced A (i.e., the type referred to by the reference) can be more cv-qualified than the transformed A. 
+	\end{lightgrayleftbar}
+	
+	即, 若形参是引用类型, 则允许通过推导, 使得实参类型转化为更加 符合 cv 条件(cv-qualified)的类型。这里将 T 推导为 int, 则 实参类型 const int 比原先类型 int 更加符合 cv 条件, 这一推导是允许的。
+	
+	因此, T 被推导为 int, 输出 0。
+\end{document}

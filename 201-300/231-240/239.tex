@@ -1,0 +1,35 @@
+\documentclass{article}
+\begin{comment}
+	tag:
+	异常处理
+\end{comment}
+\begin{document}
+	\paragraph*{Question 239}\noindent $\boxed{\text{Difficulty: Easy}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <stdexcept>
+#include <iostream>
+
+int main() {
+	try {
+		throw std::out_of_range("");
+	} catch (std::exception& e) {
+		std::cout << 1;
+	} catch (std::out_of_range& e) {
+		std::cout << 2;
+	}
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：1}} $
+	
+	现在有两个 catch 都能捕获 std::out\_of\_range, 会选择哪个呢?
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/except.handle#4}{[expect.handle\#4]} 告诉我们, 按顺序匹配。
+	
+	\begin{lightgrayleftbar}
+		The handlers for a try block are tried in order of appearance.
+	\end{lightgrayleftbar}
+\end{document}

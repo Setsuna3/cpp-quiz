@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\begin{comment}
+	tag:
+	函数重载
+	字面量类型
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 335} $\boxed{\text{Difficulty: Medium}} $	
+	
+According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]
+#include <cstddef>
+#include <iostream>
+
+void f(void*) {
+	std::cout << 1;
+}
+
+void f(std::nullptr_t) {
+	std::cout << 2;
+}
+
+int main() {
+	int* a{};
+	
+	f(a);
+	f(nullptr);
+	f(NULL);
+}
+	\end{lstlisting}
+	\paragraph*{答案和解析} $\boxed{\text{程序存在实现定义行为}} $
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/support.types.nullptr#2}{[support.types.nullptr\#2]}
+	
+	\begin{lightgrayleftbar}
+	The macro NULL is an implementation-defined null pointer constant.
+	\end{lightgrayleftbar}
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/conv.ptr#1}{[conv.ptr\#1]}
+	
+	\begin{lightgrayleftbar}
+	A null pointer constant is an integer literal with value zero or a prvalue of type std​::​nullptr\_­t.
+	\end{lightgrayleftbar}
+
+	根据 C++ 标准, NULL可以实现定义作为 std::nullptr\_t 类型的纯右值, 因此是完美匹配。这里将输出122, 然而这是实现定义行为,主流的编译器并没有这样实现, 可能会产生二义性问题。
+\end{document}

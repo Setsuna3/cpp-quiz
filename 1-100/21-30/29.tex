@@ -1,0 +1,44 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	virtual
+	类的构造和析构
+\end{comment}
+\begin{document}
+	
+	\paragraph*{Question 29} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+struct A {
+	A() { foo(); }
+	virtual ~A() { foo(); }
+	virtual void foo() { std::cout << "1"; }
+	void bar() { foo(); }
+};
+
+struct B : public A {
+	virtual void foo() { std::cout << "2"; }
+};
+
+int main() {
+	B b;
+	b.bar();
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：121}} $
+	
+	虽然 A::foo 确实是虚函数, 但在 A 构造和析构的过程, 依然不会考虑它。我们可以不太严格地去理解这一点————在 A 构造时, B 还没有开始构造, 也就不存在 B::foo 这个函数。在析构时, 先要调用 B 的析构函数, 这可能导致 B::foo 的结果与预期不符, 所以 A 的析构函数去调用它也是不合适的。
+	
+	这一点也在\href{https://timsong-cpp.github.io/cppwp/n4659/class.cdtor#3}{[class.cdtor\#3]} 中明确, 虚函数在构造和析构期间可以被调用, 但是在构造和析构期间调用的虚函数就是当前类的函数, 而不能在派生类中重写它。
+	
+	\begin{lightgrayleftbar}
+		Member functions, including virtual functions, can be called during construction or destruction ([class.base.init]). When a virtual function is called directly or indirectly from a constructor or from a destructor, including during the construction or destruction of the class's non-static data members, and the object to which the call applies is the object (call it x) under construction or destruction, \textbf{ the function called is the final overrider in the constructor's or destructor's class and not one overriding it in a more-derived class.} 
+	\end{lightgrayleftbar}
+	
+\end{document}

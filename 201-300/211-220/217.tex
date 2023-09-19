@@ -1,0 +1,29 @@
+\documentclass{article}
+\begin{comment}
+	\tag:
+	三元运算符
+\end{comment}
+\begin{document}
+	\paragraph*{Question 217} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+int main() {
+	int i = 1;
+	int const& a = i > 0 ? i : 1;
+	i = 2;
+	std::cout << i << a;
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：21}} $
+	
+	这需要明确, a 此时是否是 i 的引用。换言之, 三元运算符的结果是左值还是右值。
+	
+	事实上可以猜出, 结果是右值是合理的。因为 i 有可能转换为右值, 但 1 不可能转换为左值。一一比对\href{https://timsong-cpp.github.io/cppwp/n4659/expr.cond}{[expr.cond\#$2\sim6$]} 中的规则, 答案确实是纯右值。
+	
+	因此, a 只是引用了一个常量, 而不是引用了 i。
+\end{document}

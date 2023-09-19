@@ -1,0 +1,36 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	模板特化
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 1} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+template <class T> 
+void f(T &i) { std::cout << 1; }
+
+template <> 
+void f(const int &i) { std::cout << 2; }
+
+int main() {
+	int i = 42;
+	f(i);
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 1}} $
+	
+	f(const int\&) 是对 f(T\&) 的模板特化。但是在模板类型推导中, T 被推导为 int, 而特化是针对 T = const int 的, 因此不选择模板的特化, 输出 1。
+	
+	【待补充】
+	
+\end{document}

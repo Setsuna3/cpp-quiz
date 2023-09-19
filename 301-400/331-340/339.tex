@@ -1,0 +1,93 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 340} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <future>
+#include <iostream>
+
+int main()
+{
+	std::promise<int> p;
+	std::future<int> f = p.get_future();
+	p.set_value(1);
+	std::cout << f.get();
+	std::cout << f.get();
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序存在未定义行为}} $
+	
+	在一对 promise/future 变量中, promise 变量只能执行一次 set\_value(), future 变量也只能执行一次 get()。
+	
+	以下是更详细的分析。
+	
+	主函数第一行创建了 std::promise 对象, 并在第二行获取了与其共享状态的 std::future 对象。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/futures.promise#12}{future.promise\#12}
+	\begin{lightgrayleftbar}
+		future<R> get\_future();
+		
+		Returns: A future<R> object with the same shared state as *this.
+	\end{lightgrayleftbar}
+	
+	接下来执行 set\_value(), 将值存入共享的状态。该函数只能执行一次, 否则抛出异常。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/futures.promise#15}{futures.promise\#15}
+	
+	\begin{lightgrayleftbar}
+		void promise::set\_value(const R\& r);
+		
+		void promise::set\_value(R\&\& r);
+		
+		void promise<R\&>::set\_value(R\& r);
+		
+		void promise<void>::set\_value();
+		
+		Effects: Atomically stores the value r in the shared state and makes that state ready.
+		
+		Throws:
+		
+		\textbf{future\_­error if its shared state already has a stored value or exception.}
+	\end{lightgrayleftbar}
+	
+	get() 函数则获取并且释放共享的状态。第一次 get() 时将得到 1, 第二次 get() 时, 由于 valid() == false, 不满足前置条件, 引发未定义行为。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/futures.unique_future#16}{futures.unique\_future\#16}
+	\begin{lightgrayleftbar}
+		R future::get();
+	
+		R\& future<R\&>::get();
+		
+		Effects:
+		
+		(15.1)
+		
+		wait()s until the shared state is ready, then retrieves the value stored in the shared state;
+		
+		(15.2)
+		
+		\textbf{releases any shared state}. 
+		
+		Returns:
+		
+		(16.1)
+		
+		future​::​get() returns the value v stored in the object's shared state as std​::​move(v).
+		
+		(16.2)
+		
+		future<R\&>​::​get() returns the reference stored as value in the object's shared state.
+		
+		Throws: the stored exception, if an exception was stored in the shared state.
+		
+		\textbf{Postconditions: valid() == false.}
+		
+		bool valid() const noexcept;
+		
+		\textbf{Returns: true only if *this refers to a shared state. }
+	\end{lightgrayleftbar}
+	
+\end{document}

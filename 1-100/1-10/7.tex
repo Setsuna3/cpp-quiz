@@ -1,0 +1,37 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 7} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+class A {
+	public:
+	void f() { std::cout << "A"; }
+};
+
+class B : public A {
+	public:
+	void f() { std::cout << "B"; }
+};
+
+void g(A &a) { a.f(); }
+
+int main() {
+	B b;
+	g(b);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：A}} $
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/class.virtual#9}{[class.virtual\#9]}
+	
+	\begin{lightgrayleftbar}
+		Note: The interpretation of the call of a virtual function depends on the type of the object for which it is called (the dynamic type), \textbf{whereas the interpretation of a call of a non-virtual member function depends only on the type of the pointer or reference denoting that object}
+	\end{lightgrayleftbar}
+
+	简而言之, 虚函数看实际类型, 普通函数看对象(或指针/引用)的类型。
+\end{document}

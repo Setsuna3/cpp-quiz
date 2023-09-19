@@ -1,0 +1,37 @@
+\documentclass{article} 
+
+\begin{document}
+	\paragraph*{Exercise 4.2} 
+	
+	对于该程序的解读有误。事实上, 解读有意淡化了引用。Integral Promotion 得到的临时常量是一个右值,也就是 int 类型的右值。那么, int\& 不能绑定它, 所以第一个函数根本不在重载的考虑范围之内。
+	
+	虽然本题到此就可得出结论, 但这里还是要提出一点。第二个函数的转换仅仅只是一次 Integral Promotion, 而没有 Qualification conversion。 根据\href{https://timsong-cpp.github.io/cppwp/n4659/over.ics.ref#1}{[over.ics.ref\#1]}, \textbf{如果形参可以直接绑定实参, 则这一转换是一次 Identity conversion。} 那么, const int\& 是可以直接绑定 int 类型的右值的(当然, 它也可以直接绑定 int 类型的左值), 因此不需要 Qualification conversion。
+	
+	\begin{lightgrayleftbar}
+		When a parameter of reference type binds directly to an argument expression, the implicit conversion sequence is the identity conversion.
+	\end{lightgrayleftbar}
+
+	如果你尝试写 
+	
+	\begin{lstlisting}[language=C++]
+#include<iostream>
+
+void f(int x) { std::cout << 1; }
+
+void f(const int& x) { std::cout << 2; }
+
+int main() 
+{
+	f(10);
+}
+	\end{lstlisting}
+	
+	会引发二义性错误, 因为两个函数转换级别都是 Identity, 无法分出好坏。而如果采用
+	
+	\begin{lstlisting}[language=C++]
+void f(const int& x) { std::cout << 1; }
+void f(const int&& x) { std::cout << 2; }
+	\end{lstlisting}
+	
+	答案就会是 2。这是因为, 根据\href{https://timsong-cpp.github.io/cppwp/n4659/over.ics.rank#3.2.3}{[over.ics.rank\#3.2.3]]}, 如果标准转换 S1 通过右值引用 \&\& 绑定了一个右值, 而 S2 绑定了一个左值, 则 S1 更优。 
+\end{document}

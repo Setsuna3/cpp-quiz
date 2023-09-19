@@ -1,0 +1,48 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 226}\noindent $\boxed{\text{Difficulty: Medium}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+#include <utility>
+
+struct X {
+	X() { std::cout << "1"; }
+	X(X &) { std::cout << "2"; }
+	X(const X &) { std::cout << "3"; }
+	X(X &&) { std::cout << "4"; }
+	~X() { std::cout << "5"; }
+};
+
+struct Y {
+	mutable X x;
+	Y() = default;
+	Y(const Y &) = default;
+};
+
+int main() {
+	Y y1;
+	Y y2 = std::move(y1);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：1255}} $
+	
+	主函数的第一行定义了 Y 类型的变量 y1，因此调用 Y 的构造函数。
+	
+	类型 Y 拥有一个 X 类型的成员 x，因此调用 x 的默认构造函数，输出 1。
+	
+	第二行中，std::move 将 y1 变换为右值，但是 Y 并没有移动构造函数，只能退而求其次，使用复制构造函数。因此, 其成员 x 也将使用 X 类的复制构造函数进行构造。
+	
+	接下来的问题就是，我们将采用 X 类的哪一个构造函数。此时，x 本应该是 const X\& 类型的，但有 mutable 修饰，根据 \href{https://timsong-cpp.github.io/cppwp/n4659/dcl.stc#9}{dcl.stc\#9}
+	
+	\begin{lightgrayleftbar}
+		The mutable specifier on a class data member nullifies a const specifier applied to the containing class object and permits modification of the mutable class member even though the rest of the object is const.
+	\end{lightgrayleftbar}
+	
+	因此, x 并不是 const 的, 在两个复制构造函数中，选择第六行的 X(X \&) 较为合适, 故输出 2。
+	
+	在 main 函数结束后, y1 和 y2 执行析构函数。输出两次 5。
+\end{document}

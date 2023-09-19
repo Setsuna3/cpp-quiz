@@ -1,0 +1,75 @@
+\documentclass{article}
+
+\begin{comment}
+	tag:
+	变量定义和初始化
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 119}\noindent $\boxed{\text{Difficulty: Medium}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+
+int main() {
+	void * p = &p;
+	std::cout << bool(p);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：1}} $
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/basic.scope.pdecl#1}{[basic.scope.pdecl\#1]} 指出, 变量名定义的时间点在完整声明者(declarator)之后, 在初始化者(initializer)之前。
+	\begin{lightgrayleftbar}
+		The point of declaration for a name is immediately after its complete declarator and before its initializer (if any)
+	\end{lightgrayleftbar}
+	这里的完整声明者是第一个 p, 初始化者是 \&p, 在两者之间完成了变量名的定义, 因此初始化者可以使用 p 并且取得它的地址。第 4 行语句结束后, p 是一个指向自己的指针, 它一定不是空指针, 因此答案是 1。
+	
+	这里再给出几个练习。
+	请回答, 在 C++17 标准下, 以下程序的答案。
+	
+	\begin{lstlisting}[language=C]    
+#include <iostream>
+int main()
+{
+	const int x = 42;
+	{int x = x ; std::cout << x; }
+}
+	\end{lstlisting}
+
+	A: 是42。
+	
+	B: 有可能不是42。
+	
+	C: 无法编译。
+	
+	D: ub, 取决于具体实现。
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+int main()
+{
+	const int x = 42;
+	{int x[x] ; std::cout << sizeof x; }
+}
+	\end{lstlisting}
+
+	在这个问题中, 假设 sizeof(int) = 4
+	
+	A: 是168。
+	
+	B: 有可能不是168。
+	
+	C: 无法编译。
+	
+	D: ub, 取决于具体实现。
+	
+	参考答案: 
+	
+	第一个程序中, x 在初始化之前已经完成了声明, 因此初始化将使用它本身(尚未确定)的值, 所以可能不是42。
+	
+	第二个程序中, 直到 x[x] 处声明者才完全结束, 声明前还没有隐藏外部变量 x, 因此这里数组大小 x 是外部的 x, 这里等效于声明 int x[42], 答案是168。
+	
+\end{document}

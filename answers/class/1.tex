@@ -1,0 +1,37 @@
+\documentclass{article} 
+
+\begin{document}
+	\paragraph*{Exercise 6.1} 
+	
+	交换两者的定义顺序, 确保将 A::createB() 为友元函数时, 该函数已经被定义。
+	
+	\begin{lstlisting}[language=C++]
+#include <iostream>
+
+class B;  // Forward declaration of B
+
+class A {
+	public:
+	A() { std::cout << "A"; }
+	
+	B createB();  // Declare createB() before defining class B
+};
+
+class B {
+	public:
+	B() { std::cout << "B"; }
+	friend B A::createB();  // Now the friend declaration can reference A::createB()
+};
+
+B A::createB() {
+	return B();
+}
+
+int main() {
+	A a;
+	B b = a.createB();
+}
+
+	\end{lstlisting}
+	 
+\end{document}

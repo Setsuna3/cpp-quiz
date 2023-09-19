@@ -1,0 +1,31 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	表达式综合练习
+\end{comment}
+\begin{document}
+	
+	\paragraph*{Question 138} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+int main() {
+	std::cout << +!!"";
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 1}} $
+	
+	这个表达式的操作数只有一个:字符串字面量 \text{""}。它的类型是 const char[1]。根据 \href{https://timsong-cpp.github.io/cppwp/n4659/over.built#24}{[over.built\#24]}, ! 运算只能用于 bool 类型。因此会先进行 array-to-pointer conversion(\href{https://timsong-cpp.github.io/cppwp/n4659/conv.array#1}{[conv.array\#1]}) 转换为 const char*, 再通过 boolean conversion(\href{https://timsong-cpp.github.io/cppwp/n4659/conv.bool}{[conv.bool]})转化为 bool 类型。由于它不是一个空指针, 转换的结果将是 true。经过两次运算, 答案依然保持 true。
+	
+	接下来就是 operator+, 它只有一个操作数。根据\href{https://timsong-cpp.github.io/cppwp/n4659/expr.unary.op#7}{[expr.unary.op\#7]]}, 它的结果是参数值本身, 操作会引发 Integral promotion。因此表达式的结果是 int 类型的 1。
+	
+	\begin{lightgrayleftbar}
+		The operand of the unary + operator shall have arithmetic, unscoped enumeration, or pointer type and the result is the value of the argument. \textbf{Integral promotion is performed on integral or enumeration operands.} 
+	\end{lightgrayleftbar}
+	
+\end{document}

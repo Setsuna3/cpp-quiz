@@ -1,0 +1,32 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 8} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+class A {
+	public:
+	virtual void f() { std::cout << "A"; }
+};
+
+class B : public A {
+	public:
+	void f() { std::cout << "B"; }
+};
+
+void g(A a) { a.f(); }
+
+int main() {
+	B b;
+	g(b);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：A}} $
+	
+	这里 a 只是 A 类的普通对象, 所以会调用 a::f()。
+	
+\end{document}

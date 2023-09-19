@@ -1,0 +1,44 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 5}\noindent $\boxed{\text{Difficulty: Easy}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+
+struct A {
+	A() { std::cout << "A"; }
+};
+struct B {
+	B() { std::cout << "B"; }
+};
+
+class C {
+	public:
+	C() : a(), b() {}
+	
+	private:
+	B b;
+	A a;
+};
+
+int main()
+{
+	C();
+}
+		
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：BA}} $
+	
+	 \href{https://timsong-cpp.github.io/cppwp/n4659/class.base.init#13.3}{[class.base.init\#13.3]} 指出, 成员的初始化顺序按照声明顺序。
+	
+	\begin{lightgrayleftbar}
+		(13) In a non-delegating constructor, initialization proceeds in the following order: 
+		
+		(13.3) Then, non-static data members are initialized in the order they were declared in the class definition (again regardless of the order of the mem-initializers). 
+	\end{lightgrayleftbar}
+	
+	b 优先声明, 因此较先调用构造函数。
+\end{document}

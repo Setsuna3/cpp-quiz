@@ -1,0 +1,29 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	函数重载
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 2} $\boxed{\text{Difficulty: Medium}}$
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C]  		
+#include <iostream>
+
+void f(int) { std::cout << 1; }
+void f(unsigned) { std::cout << 2; }
+
+int main() {
+	f(-2.5);
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序会引发编译错误}} $
+	
+	参数的类型为 double, 向 int 和 unsigned int 转换的级别都是 Conversion, 因此具有二义性。
+\end{document}

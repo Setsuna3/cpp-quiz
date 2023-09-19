@@ -1,0 +1,38 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	基础语法
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 333} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+int main()
+{
+	int x = 3;
+	while (x --> 0) // x goes to 0
+	{
+		std::cout << x; 
+	}
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 210}} $
+	
+	ok fine, 这是一个经典笑话了。 C/C++ 语言中根本没有 `快速趋向于'。它是由 - - 符号和 > 符号拼起来的。
+	\href{https://timsong-cpp.github.io/cppwp/n4659/lex.token}{[lex.token]}
+	指出, 空格(以及换行,制表符等)在C++语言中都会被忽略,除非它们是用于分隔标记。
+	\begin{lightgrayleftbar}
+	There are five kinds of tokens: identifiers, keywords, literals,19 operators, and other separators. Blanks, horizontal and vertical tabs, newlines, formfeeds, and comments (collectively, `white space'), as described below, \textbf{are ignored except as they serve to separate tokens.} [ Note: Some white space is required to separate otherwise adjacent identifiers, keywords, numeric literals, and alternative tokens containing alphabetic characters.  — end note ] 
+	\end{lightgrayleftbar}
+	
+	因此, 循环将执行三次, 分别输出 2 1 0。
+	
+\end{document}

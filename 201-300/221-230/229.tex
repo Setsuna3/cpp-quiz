@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\begin{comment}
+	tag:
+	lambda表达式
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 229}\noindent $\boxed{\text{Difficulty: Hard}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+int a = 1;
+int main() {
+	auto f = [](int b) { return a + b; };
+	std::cout << f(4);
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：5}} $
+	
+	这需要说到 lambda 表达式的隐式捕获规则。【待补充】
+
+	
+	
+\end{document}

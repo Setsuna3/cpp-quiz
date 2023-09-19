@@ -1,0 +1,41 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	函数重载
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 132} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C]  		
+#include <iostream>
+using namespace std;
+
+int foo() {
+	cout << 1;
+	return 1;
+}
+
+void bar(int i = foo()) {}
+
+int main() {
+	bar();
+	bar();
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 11}} $
+	
+	C++ 标准并没有规定函数默认值必须是 constexpr, 也就是说, 必须在每次调用时, 都重新计算一遍参数默认值。\href{https://timsong-cpp.github.io/cppwp/n4659/dcl.fct.default#9}{[dcl.fct.default\#9]}中也有规定
+	
+	\begin{lightgrayleftbar}
+		A default argument is evaluated each time the function is called with no argument for the corresponding parameter.
+	\end{lightgrayleftbar}
+	
+	因此, foo 被调用 2 次。
+\end{document}

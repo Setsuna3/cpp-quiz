@@ -1,0 +1,42 @@
+\documentclass{article}
+\begin{document}
+	\paragraph*{Question 232} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+struct S {
+	template <typename Callable>
+	void operator[](Callable f) {
+		f();
+	}
+};
+
+int main() {
+	auto caller = S{};
+	caller[ []{ std::cout << "C";} ];
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序将引发编译错误}} $
+	
+	事实上, 程序逻辑没有任何问题, 但是如果尝试执行, 编译器(gcc)会提示
+	
+	error: two consecutive '[' shall only introduce an attribute before '[' token.
+	
+	查阅标准\href{https://timsong-cpp.github.io/cppwp/n4659/dcl.attr.grammar#7}{[dcl.attr.grammar\#7]}
+	
+	\begin{lightgrayleftbar}
+		Two consecutive left square bracket tokens shall appear only when introducing an attribute-specifier or within the balanced-token-seq of an attribute-argument-clause.
+	\end{lightgrayleftbar}
+
+	这是在说, 一般只有类似 \verb|[[nodiscard]] node* f(int x) {return new node(x);}| 之类的情况, 才用到两个连续的左中括号。对于这题而言, 我们不去深究 balanced-token-seq of an attribute-argument-clause 等概念的具体含义, 因为标准给出了一个相似的例子。
+	
+	\begin{lstlisting}[language=C++]
+int p[10];
+int(p[[x] { return x; }()]);  // error: invalid attribute on a nested declarator-id and not a function-style cast of an element of p.
+	\end{lstlisting}
+
+\end{document}

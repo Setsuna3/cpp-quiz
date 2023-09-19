@@ -1,0 +1,48 @@
+\documentclass{article} 
+
+\begin{document}
+	\paragraph*{Question 144} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <limits>
+using std::numeric_limits, std::cout;
+int main()
+{
+	int N[] = {0,0,0};
+	
+	if ( numeric_limits<long int>::digits==63 &&
+	numeric_limits<int>::digits==31 &&
+	numeric_limits<unsigned int>::digits==32 )
+	{
+		for (long int i = -0xffffffff; i ; --i)
+		{
+			N[i] = 1;
+		}
+	}
+	else
+	{  
+		N[1]=1;
+	}
+	
+	cout << N[0] << N[1] << N[2];
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 010}} $
+	
+	如果执行 else 分支, 则结果是显然的。所以在这里我们认为 long long 是 64 位有符号整数, int 是 32 位有符号整数, unsigned int 是 32 位无符号整数。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/lex.icon#2}{[lex.icon\#2]} 的表格指出, 对于不含后缀的十六进制字面量, 会在以下列表中找到第一个能够表示它的类型:\{int, unsigned int, long int, unsigned long int, long long int, unsigned long long int\} 
+	
+	0xffffffff 可以被 unsigned int 表示, 但不能被 int 表示, 所以该字面量的类型是 unsigned int。那么, 无符号数的 '相反数' 是怎么计算的呢? 其实在前面我们提到, 无符号数是不可能溢出的, 它的所有运算都是对最大值取模的。\href{https://timsong-cpp.github.io/cppwp/n4659/expr.unary.op#8}{[expr.unary.op\#8]} 中也有提到, 无符号整数的相反数的计算方法是用 $2^n$ 减去它。
+	
+	\begin{lightgrayleftbar}
+		The negative of an unsigned quantity is computed by subtracting its value from $2^n$, where n is the number of bits in the promoted operand. 
+	\end{lightgrayleftbar}
+
+	因此, i 的初值为 1, 与 else 分支的效果相同。
+\end{document}

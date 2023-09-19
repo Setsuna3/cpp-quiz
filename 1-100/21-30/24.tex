@@ -1,0 +1,23 @@
+\documentclass{article}
+\begin{comment}
+	\tag:
+	无符号数运算
+\end{comment}
+\begin{document}
+	\paragraph*{Question 24} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <limits>
+
+int main() {
+	unsigned int i = std::numeric_limits<unsigned int>::max();
+	std::cout << ++i;
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：0}} $
+	无符号数的运算总是对最大值取模, 因此输出 0。
+\end{document}

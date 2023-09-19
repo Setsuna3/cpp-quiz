@@ -1,0 +1,62 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	异常, 综合题。
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 15} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <exception>
+
+int x = 0;
+
+class A {
+	public:
+	A() {
+		std::cout << 'a';
+		if (x++ == 0) {
+			throw std::exception();
+		}
+	}
+	~A() { std::cout << 'A'; }
+};
+
+class B {
+	public:
+	B() { std::cout << 'b'; }
+	~B() { std::cout << 'B'; }
+	A a;
+};
+
+void foo() { static B b; }
+
+int main() {
+	try {
+		foo();
+	}
+	catch (std::exception &) {
+		std::cout << 'c';
+		foo();
+	}
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: acabBA}} $
+	
+	这是一道综合题, 我们来分析它的流程。
+	
+	在主函数中, 调用 foo 后, 我们尝试初始化 b。在调用构造函数 B() 之前, 还要先构造成员函数 a。
+	
+	在调用 A() 的过程中, 输出 a 并引发异常。注意, 此时 a 的构造还没有完成, 因此之后也不会调用 a 的析构函数(相对地, 如果 a 有一些已经构造的其他成员, 退出时依然会析构它们)。
+	
+	catch(std::exception \&) 这里捕获了异常, 输出 c 后再次调用 foo()。这一次将顺利构造, 按顺序输出 ab, 程序结束后按相反顺序输出BA。
+	
+\end{document}

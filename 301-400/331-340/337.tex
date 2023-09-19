@@ -1,0 +1,38 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	decltype/auto
+\end{comment}
+\begin{document}
+	
+	\paragraph*{Question 337} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <type_traits>
+
+int main() {
+	auto a = "Hello, World!";
+	std::cout << std::is_same_v<decltype("Hello, World!"), decltype(a)>;
+	
+	return 0;
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：0}} $
+	
+	"Hello, World" 的类型为 const char[14]。
+	
+	【待补充】
+	\href{https://timsong-cpp.github.io/cppwp/n4659/dcl.type.simple#4}{[dcl.type.simple\#4]}
+	
+	\begin{lightgrayleftbar}
+		otherwise, if e is an lvalue, decltype(e) is T\&, where T is the type of e;
+	\end{lightgrayleftbar}
+	
+	所以 decltype("Hello World!") 得到的结果是 const char(\&)[14]
+	
+\end{document}

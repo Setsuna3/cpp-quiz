@@ -1,0 +1,38 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	基础语法
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 111} $\boxed{\text{Difficulty: Medium}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+int main() {
+	int i=1;
+	do {
+		std::cout << i;
+		i++;
+		if(i < 3) continue;
+	} while(false);
+	return 0;
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 1}} $
+	
+	这里的问题在于, 执行 continue 语句后, 是否再进行 while 条件的判断。根据\href{https://timsong-cpp.github.io/cppwp/n4659/stmt.cont#1}{[stmt.cont\#1]},
+	\begin{lightgrayleftbar}
+		The continue statement shall occur only in an iteration-statement and causes control to pass to the loop-continuation portion of the smallest enclosing iteration-statement, that is, \textbf{to the end of the loop}.
+	\end{lightgrayleftbar}
+	
+	所以, continue 语句的实际作用是跳跃到循环的末尾, 所以依然会进行循环条件的判断。
+	
+\end{document}

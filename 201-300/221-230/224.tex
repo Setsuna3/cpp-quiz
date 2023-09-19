@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\begin{comment}
+	tag:
+	变量定义和初始化
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 224}\noindent $\boxed{\text{Difficulty: Medium}} $
+	
+	According to the C++17 standard, what is the output of this program? 
+	
+	\begin{lstlisting}[language=C++]    
+#include <iostream>
+
+struct Base {
+	virtual int f() = 0; 
+};
+
+int Base::f() { return 1; }
+
+struct Derived : Base {
+	int f() override;
+};
+
+int Derived::f() { return 2; }
+
+int main() {
+	Derived object;
+	std::cout << object.f();
+	std::cout << ((Base&)object).f();
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确，输出为：22}} $
+	
+	程序的输出并没有疑问。稍微有些反直觉的是, 纯虚函数也是可以被定义的。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/class.abstract#2}{[class.abstract\#2]} 暗示了这一点。
+	
+	\begin{lightgrayleftbar}
+		A pure virtual function need be defined only if called with, or as if with, the qualified-id syntax.
+	\end{lightgrayleftbar}
+
+\end{document}

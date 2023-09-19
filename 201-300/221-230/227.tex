@@ -1,0 +1,49 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	析构顺序
+\end{comment}
+
+\begin{document}
+	\paragraph*{Question 227} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+using Func = int();
+
+struct S {
+	Func f;
+};
+
+int S::f() { return 1; }
+
+int main() {
+	S s;
+	std::cout << s.f();
+}
+	\end{lstlisting}
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: 1}} $
+	
+    \verb|using Func = int();| 一句 等同于 \verb|typedef int Func();|, 可以用于函数的声明。声明的函数将不接收任何参数, 返回值类型为 int。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/dcl.fct#12}{[dcl.fct\#12]}
+	
+	\begin{lightgrayleftbar}
+	A typedef of function type may be used to declare a function but shall not be used to define a function. [ Example:
+	
+	\begin{lstlisting}[language=C++]
+typedef void F();
+F  fv;              // OK: equivalent to void fv();
+F  fv { }           // ill-formed
+void fv() { }       // OK: definition of fv
+	\end{lstlisting}
+
+	
+	— end example ] 
+	\end{lightgrayleftbar} 
+	
+\end{document}

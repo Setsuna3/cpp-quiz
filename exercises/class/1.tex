@@ -1,0 +1,42 @@
+
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	函数重载
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Exercise 6.1} 
+	
+	如何修改 Question 52 的代码, 使得程序正常运行?
+	
+	\begin{lstlisting}[language=C]  		
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+class A;
+
+class B {
+	public:
+	B() { std::cout << "B"; }
+	friend B A::createB();
+};
+
+class A {
+	public:
+	A() { std::cout << "A"; }
+	
+	B createB() { return B(); }
+};
+
+int main() {
+	A a;
+	B b = a.createB();
+}
+	\end{lstlisting}
+	
+	
+	
+\end{document}

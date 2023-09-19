@@ -1,0 +1,75 @@
+\documentclass{article} 
+
+\begin{comment}
+	tag:
+	const
+\end{comment}
+
+
+\begin{document}
+	\paragraph*{Question 15} $\boxed{\text{Difficulty: Easy}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+#include <memory>
+#include <vector>
+
+class C {
+	public:
+	void foo()       { std::cout << "A"; }
+	void foo() const { std::cout << "B"; }
+};
+
+struct S {
+	std::vector<C> v;
+	std::unique_ptr<C> u;
+	C *const p;
+	
+	S() 
+	: v(1) 
+	, u(new C())
+	, p(u.get())
+	{}
+};
+
+int main() {
+	S s;
+	const S &r = s;
+	
+	s.v[0].foo();
+	s.u->foo();
+	s.p->foo();
+	
+	r.v[0].foo();
+	r.u->foo();
+	r.p->foo();
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出为: AAABAA}} $
+	
+	容易知道, 前两次调用都将输出 A。
+	调用 s.p->foo() 时需要注意, 虽然 p 是 const 的, 但它所指向的对象依然是 non-const 的。即依然会输出 A。
+
+	调用 r.v[0].foo() 时, 由于 r 是一个常引用, 所以 r 的成员 r.v 是 const 的。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/expr.ref#4.2}{expr.ref\#4.2}
+	
+	\begin{lightgrayleftbar}
+		If E2 is a non-static data member and the type of E1 is “cq1 vq1 X”, and the type of E2 is “cq2 vq2 T”, the expression designates the named member of the object designated by the first expression. If E1 is an lvalue, then E1.E2 is an lvalue; otherwise E1.E2 is an xvalue. Let the notation vq12 stand for the “union” of vq1 and vq2; that is, if vq1 or vq2 is volatile, then vq12 is volatile. Similarly, let the notation cq12 stand for the “union” of cq1 and cq2; that is, if cq1 or cq2 is const, then cq12 is const. If E2 is declared to be a mutable member, then the type of E1.E2 is “vq12 T”. If E2 is not declared to be a mutable member, \textbf{then the type of E1.E2 is “cq12 vq12 T”}.
+	\end{lightgrayleftbar}
+	
+	由 \href{https://timsong-cpp.github.io/cppwp/n4659/sequence.reqmts#14}{sequence.reqmts\#14}, r.v[0] 返回的也是常引用, 因此 r.v[0]->foo() 输出 B。
+	
+	\begin{lightgrayleftbar}
+		expression: a[n] 	
+		
+		return type: reference; const\_­reference for constant a
+	\end{lightgrayleftbar}
+	
+	接下来两次调用时, 虽然指针本身是 const 的, 但指向的对象依然是 non-const 的, 依然输出 A。
+	
+\end{document}

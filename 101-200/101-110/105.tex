@@ -1,0 +1,64 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	构造函数
+	range-based for
+\end{comment}
+\begin{document}
+	\paragraph*{Question 105} $\boxed{\text{Difficulty: Medium}} $	
+	
+	According to the C++17 standard, what is the output of this program?	
+	
+	\begin{lstlisting}[language=C++]
+#include <iostream>
+
+using namespace std;
+
+class A {
+	public:
+	A() { cout << "a"; }
+	~A() { cout << "A"; }
+};
+
+int i = 1;
+
+int main() {
+	label:
+	A a;
+	if (i--)
+	goto label;
+}
+	\end{lstlisting}
+	\paragraph*{答案和解析} $\boxed{\text{程序完全正确, 输出aAaA}} $
+	
+	采用 goto 回到 label 处, 会再次遇到 A a 的定义语句, 此时会发生什么?
+	
+	根据 \href{https://timsong-cpp.github.io/cppwp/n4659/stmt.jump#2}{[stmt.jump\#2]}, 若跳转回到一个已经初始化的具有自动存储周期(automatic storage duration)的变量尚未定义的时间点，将销毁该对象。
+
+	\begin{lightgrayleftbar}
+	Transfer out of a loop, out of a block, \textbf{or back past an initialized variable with automatic storage duration involves the destruction of objects with automatic storage duration that are in scope at the point transferred from but not at the point transferred to.} 
+	\end{lightgrayleftbar}
+	
+		根据\href{https://timsong-cpp.github.io/cppwp/n4659/basic.stc.auto#1}{[basic.stc.auto\#1]}, 块内部的变量如果没有显式以 static, thread\_local 或 extern 声明, 都拥有自动存储周期。在退出这个程序块的时候它们的生命周期即结束。
+	
+	\begin{lightgrayleftbar}
+		\textbf{Block-scope variables not explicitly declared static, thread\_­local, or extern have automatic storage duration.} The storage for these entities lasts until the block in which they are created exits.
+	\end{lightgrayleftbar}
+	
+	变量 a 是局部变量, 且没有被 static 等修饰, 所以拥有自动存储周期。
+	
+	这里从一处已经定义了 a 的时间点跳跃到 a 尚未定义的时间点, 符合上面的定义, 因此将执行 a 的析构函数。那么, 再次执行语句 \verb|A a| 的时候, 就会重新定义这个变量, 执行它的构造函数。
+
+	作为补充, 我们将叙述静态存储周期(static storage duration)的定义。
+	
+	\href{https://timsong-cpp.github.io/cppwp/n4659/basic.stc.static#1}	{[basic.stc.static\#1]} 指出, 如果变量不具有动态、线程存储周期,也不是局部变量,就具有静态存储周期。它们直到程序结束才会销毁。\href{https://timsong-cpp.github.io/cppwp/n4659/basic.stc.static#3}	{[basic.stc.static\#3]} 告诉我们, 使用 static 语句也能定义一个拥有静态存储周期的变量。
+
+	\begin{lightgrayleftbar}
+		\textbf{All variables which do not have dynamic storage duration, do not have thread storage duration, and are not local have static storage duration.} The storage for these entities shall last for the duration of the program.
+		
+		The keyword `static` can be used to declare a local variable with static storage duration. 
+
+	\end{lightgrayleftbar}
+	
+	
+\end{document}

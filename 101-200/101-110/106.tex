@@ -1,0 +1,34 @@
+\documentclass{article} 
+\begin{comment}
+	tag:
+	ODR
+\end{comment}
+\begin{document}
+	
+	\paragraph*{Question 106} $\boxed{\text{Difficulty: Hard}} $			
+	
+	According to the C++17 standard, what is the output of this program?
+	
+	\begin{lstlisting}[language=C++]  		
+#include <iostream>
+
+extern "C" int x;
+extern "C" { int y; }
+
+int main() {
+	
+	std::cout << x << y;
+	
+	return 0;
+}
+	\end{lstlisting}
+	
+	
+	\paragraph*{答案和解析} $\boxed{\text{程序存在未定义行为}} $
+	
+	\textbf{extern "C" int x;} 是一次定义, 而 \textbf{extern "C" {int y}} 是一次声明。
+	
+	根据 C++ 标准, 变量必须恰好被定义一次(One-definition rule)。由于 y 没有被定义, 所以程序存在未定义行为。
+	
+	
+\end{document}
